@@ -83,6 +83,10 @@ export default class ToggleCasePlugin extends Plugin {
 			})
 			.join('')
 	}
+	private toAndrewCase(selectedText: string) {
+		// for my most common typo
+		return selectedText.substring(0,2).toLocaleUpperCase() + selectedText.substring(2).toLocaleLowerCase();
+	}
 
 	private getNextCase(selectedText: string, index: number): string {
 		let textToCheck: string = selectedText;
@@ -98,8 +102,13 @@ export default class ToggleCasePlugin extends Plugin {
 		const checkTextUpper = textToCheck.toUpperCase();
 		const checkTextLower = textToCheck.toLowerCase();
 		const checkTextTitle = this.toTitleCase(textToCheck);
+		const checkTextAndrew = this.toAndrewCase(textToCheck);
+
 
 		switch(textToCheck) {
+			case checkTextAndrew: {
+				return this.toTitleCase(selectedText);
+			}
 			case checkTextUpper: {
 				return selectedText.toLowerCase();
 			}
@@ -110,7 +119,7 @@ export default class ToggleCasePlugin extends Plugin {
 				return selectedText.toUpperCase();
 			}
 			default: {
-				return selectedText.toUpperCase();
+				return selectedText.toTitleCase();
 			}
 		}
 	}
